@@ -28,5 +28,8 @@ def getRestaurant(category, coordinates):
             format(formatted_coordinates, cleaned_category,
                    client_id, client_secret, version)
     data = requests.get(api_call)
-    venue_name=json.loads(data.content.decode())['response']['venues'][0]['name']
+    venue=json.loads(data.content.decode()).get('response').get('venues')
+    if venue == None:
+        return None
+    venue_name = venue[0]['name']
     return venue_name
