@@ -44,13 +44,36 @@ def getRestaurant(category, coordinates):
     elif cleaned_category.lower() == 'gyros':
         category_id = '4bf58dd8d48988d10e941735'
     formatted_coordinates = '{},{}'.format(coordinates['lat'],coordinates['lng'])
-    api_call = '''https://api.foursquare.com/v2/venues/search?ll=
+    api_data_call = '''https://api.foursquare.com/v2/venues/search?ll=
         {}&categoryId={}&client_id={}&client_secret={}&v={}'''.\
             format(formatted_coordinates, category_id,
                    client_id, client_secret, version)
-    data = requests.get(api_call)
+    data = requests.get(api_data_call)
     venue=json.loads(data.content.decode()).get('response').get('venues')
     if venue == None:
         return None
     venue_name = venue[0]['name']
-    return venue_name
+    venue_id = venue[0]['id']
+    venue_photo = ''
+    venue_address = ', '.join(venue[0]['location']['formattedAddress'])
+    venue_info = {'name': venue_name, 'address': venue_address,
+                  'image': venue_photo}
+    # Get venue photo
+    api_photo_call = 'https://api.foursquare.com/v2/venues/{}/photos?client_id={}&client_secret={}&v={}'.\
+        format(
+            venue_id, client_id, client_secret, version
+        )
+    data = requests.get(api_photo_call)
+    photo=json.loads(data.content)
+
+    if photo.get('meta').get('code') != 200:
+        return venue_info
+    photo = photo.get('response').get('photos').get('items')
+    if photo == []:
+        return venue_info
+    prefix = photo[0]['prefix']
+    suffix = photo[0]['suffix']
+    size = '200x200'
+    venue_photo = ''.join([prefix, size, suffix])
+    venue_info['image'] = venue_photo
+    return venue_info
