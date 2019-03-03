@@ -10,6 +10,14 @@ from instance.config import getFoursquareClientSecret
 
 
 def getRestaurant(category, coordinates):
+    """Return restaurant suggestion.
+    
+    Input: requested category of food, e.g. Pizza, Pasta, Seafood, etc. and
+    the coordinates in the general vicinity of where you would like to eat.
+
+    Output: string with the name of the restaurant that is the best match
+    for your criteria.
+    """
     client_id = getFoursquareClientId()
     client_secret = getFoursquareClientSecret()
     version = getFoursquareVersion()
