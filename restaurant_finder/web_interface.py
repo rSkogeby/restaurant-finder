@@ -1,4 +1,4 @@
-#!/usr/bin/env python
+#!/usr/bin/env python3
 """Serve up a webpage for finding a restaurant given a preferred meal type and location."""
 
 from flask import Flask, render_template, request, redirect, url_for
