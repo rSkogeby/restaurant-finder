@@ -14,6 +14,10 @@ def landingPage():
         return render_template('landingpage.html')
 
 
-if __name__ == "__main__":
+def main():
     app.secret_key = 'a_very_secret_key'
     app.run(host='localhost', port=5000, debug=True)
+
+
+if __name__ == "__main__":
+    main()
