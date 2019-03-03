@@ -1,8 +1,10 @@
 #!/usr/bin/env python3
 """Serve up a webpage for finding a restaurant given a preferred meal type and location."""
 
-from flask import Flask, render_template, request, redirect, url_for, flash
+from flask import Flask, render_template, request, redirect, url_for, flash,\
+                    Markup
 from werkzeug.datastructures import ImmutableMultiDict
+import string
 
 from restaurant_finder.geocode import getCoordinates
 from restaurant_finder.foursquare import getRestaurant
@@ -35,6 +37,8 @@ def landingPage():
             return redirect(url_for('landingPage'))
         if isEmpty(request.form['restaurant_type']) is False:
             category = request.form['restaurant_type']
+        else:
+            category = ''
         if isEmpty(request.form['location']) is False:
             location = request.form['location']
         coordinates = getCoordinates(location)
@@ -42,9 +46,15 @@ def landingPage():
         if restaurant == None:
             flash('No restaurant found.')
         else:
-            flash('{} is a {} restaurant in {}.'.format(restaurant,
-                                                    category,
-                                                    location))
+            flash(Markup('<img src="{}"><br/>'.format(restaurant['image'])))
+            #flash('<img src="{}"><br/>'.format(restaurant['image']))
+            flash('{} is a {} restaurant at {}.'.format(
+                restaurant['name'],
+                category, 
+                string.capwords(restaurant['address'])
+            ))
+            flash(Markup('{}{}'.format('<br/><br/>',restaurant)))
+            
         return redirect(url_for('landingPage'))
     elif request.method == 'GET':
         return render_template('landingpage.html')
