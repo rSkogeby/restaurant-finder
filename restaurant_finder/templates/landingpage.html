@@ -1,6 +1,13 @@
 <html>
 <body>
     <h1>Restaurant finder</h1>
+    <p>{% with messages = get_flashed_messages() %}
+        {% if messages%}
+        {% for message in messages %}
+        <em><strong>{{message}}</strong></em>
+        {% endfor %}
+        {% endif %}
+        {% endwith %}</p>
     <form action="{{url_for('landingPage')}}" method="POST">
         <input type="text" size="30" name="restaurant_type" placeholder="pizza">    
         <input type="text" size="30" name="location" placeholder="201 Cowley road, Oxford, UK"><br/>
