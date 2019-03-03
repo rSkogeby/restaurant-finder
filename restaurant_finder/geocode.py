@@ -16,7 +16,7 @@ def getCoordinates(location):
     latitude and longitude of the best match of the search string.
     """
     api_key = getGoogleAPIKey()
-    cleaned_location = location
+    cleaned_location = '+'.join(location.split(' '))
     api_call = 'https://maps.googleapis.com/maps/api/geocode/json?address={},&key={}'.format(cleaned_location,api_key)
     data = requests.get(api_call)
     coordinates=json.loads(data.content.decode())['results'][0]['geometry']['location']    
