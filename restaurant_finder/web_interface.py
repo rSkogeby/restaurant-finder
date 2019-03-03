@@ -8,6 +8,7 @@ app = Flask(__name__)
 
 @app.route('/', methods=['GET','POST'])
 def landingPage():
+    """Return page with search restaurant functionality."""
     if request.method == 'POST':
         return redirect(url_for('landingPage'))
     elif request.method == 'GET':

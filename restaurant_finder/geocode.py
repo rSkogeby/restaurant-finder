@@ -9,7 +9,7 @@ from instance.config import getGoogleAPIKey
 def getCoordinates(location):
     """Return dictionary containing the latitude and longitude.
     
-    Input: location is the location of the desired coordinates. Formatted 
+    Input: location is the location of the desired coordinates. Formatted
     as if you were to type it into google maps.
 
     Output: dictionary with keys 'lat' and 'lng' for returning the
